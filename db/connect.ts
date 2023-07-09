@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import userModel from '../models/user';
+import ProductModel from '../models/product';
 
 async function connectDB() {
     if(!process.env.MONGODB_URL){
@@ -8,18 +8,15 @@ async function connectDB() {
     try{
         await mongoose.connect(process.env.MONGODB_URL)
         console.log('connected to Mongo DB')
-        // const newUser = new userModel({
-        //     firstName: 'dami',
-        //     lastName: 'sanz',
-        //     email: 'damian@mail.com',
-        //     loginCode: '123456',
-        //     roles: {
-        //         admin: true,
-        //         seller: true
-        //     }
-        // }) 
-        // await newUser.save();
-        // console.log("new user",  newUser)
+
+        // await ProductModel.create(
+        //         {
+        //             name: "magic mouse", 
+        //             code: "65", 
+        //             supplier_cost: 20
+        //         }
+        //     )
+        
     } catch(err) {
         console.log('not connected to mongodb',err)
     }
