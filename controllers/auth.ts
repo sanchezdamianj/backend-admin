@@ -24,16 +24,24 @@ export const login = async (req : Request, res: Response) => {
             roles: userObject.roles
         }, 
         process.env.JWT_SECRET_KEY
-        )
+    )
 
-    res.cookie("jwt", token)
+ 
+    res.setHeader('jwt', token, );
+    res.cookie('jwt', token, {
+        maxAge: 1000*60*60*24*30,
+        httpOnly: true, 
+        secure: true
+    })
 
-    res.status(200).json({ok:true, message: " Logged in"})
+
+res.status(200).json({ok:true,data :token ,message: "Logged in"})
 }
 
 
 export const generateCode = async (req : Request, res: Response) => {
     const {email} = req.params;
+
     const user = await UserModel.findOne({email})
     console.log(user)
     
@@ -51,5 +59,6 @@ export const generateCode = async (req : Request, res: Response) => {
         html: `code to enter: ${codeToSend} `
     })
     res.send(`GENERATE CODE: ${codeToSend}`)
+    res.status(200).json({ok: true, message:'code was sent successfully'})
 }
 

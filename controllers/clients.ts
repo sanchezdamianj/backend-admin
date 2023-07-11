@@ -1,8 +1,9 @@
-import { Response } from "express"
+import { Request, Response } from "express"
 import ClientModel from "../models/client"
+import { Client } from "../schemas/clients"
 
 
-export const getAll = async (req : any, res: Response) => {
+export const getAll = async (req : Request, res: Response) => {
     try{
         const clients = await ClientModel.find()
         res.status(200).json({ ok: true, data: clients})
@@ -11,8 +12,9 @@ export const getAll = async (req : any, res: Response) => {
     }
 }
 
-export const create = async ( req: any, res: Response) => {
+export const create = async ( req: Request<any,any,Client>, res: Response) => {
     const {firstName, lastName, email, document_type, document_value} = req.body
+    console.log(req.body)
     try{
        
         const createdClient = await ClientModel.create({
@@ -26,7 +28,7 @@ export const create = async ( req: any, res: Response) => {
 }
 
 
-export const getById = async (req: any, res: Response) => {
+export const getById = async (req: Request, res: Response) => {
     const { id } = req.params;
     try{
         const client = await ClientModel.findById(id)
@@ -38,7 +40,7 @@ export const getById = async (req: any, res: Response) => {
         res.status(500).json({ok: false, message: 'Client Not found'})
     }
 }
-export const getByDocument = async (req: any, res: Response) => {
+export const getByDocument = async (req: Request, res: Response) => {
     const { document } = req.params;
     try{
         const client = await ClientModel.findOne({document_value: document})

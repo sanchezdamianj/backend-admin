@@ -9,7 +9,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.3.1",
     "nodemailer": "^6.9.3",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "zod": "^3.21.4"
   },
   "name": "backend",
   "version": "1.0.0",

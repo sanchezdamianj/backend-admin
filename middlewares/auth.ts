@@ -1,16 +1,17 @@
 import { Response,NextFunction } from "express"
 import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken"
+import {  AuthRequest, User } from "../schemas/auth"
 
 export const validateUser = () => {
 
-    return (req: any, res: Response, next: NextFunction) => {
+    return (req: AuthRequest, res: Response, next: NextFunction) => {
         try{
             if (!process.env.JWT_SECRET_KEY){
                 throw new Error("jwt secret key missing")
             }
             const token = req.cookies.jwt
-            const user = jwt.verify(token, process.env.JWT_SECRET_KEY)
-            req.user = user
+            const user = jwt.verify(token, process.env.JWT_SECRET_KEY as string)
+            req.user = user as User
             next()
 
         } catch(err) {

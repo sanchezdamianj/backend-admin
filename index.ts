@@ -20,6 +20,7 @@ const whitelist = [
 const options = {
     origin: process.env.FE_URL,
     whitelist:whitelist,
+    methods: ["POST", "PUT", "DELETE", "GET", "OPTIONS"],
     credentials: true
 }
 
