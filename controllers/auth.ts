@@ -58,7 +58,7 @@ export const generateCode = async (req : Request, res: Response) => {
         subject: "There you have a code", 
         html: `code to enter: ${codeToSend} `
     })
-    res.send(`GENERATE CODE: ${codeToSend}`)
-    res.status(200).json({ok: true, message:'code was sent successfully'})
+    // res.send(`GENERATE CODE: ${codeToSend}`)
+    res.status(200).json({ok: true, message:'Code was sent successfully'})
 }
 
