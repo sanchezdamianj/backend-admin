@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import sendEmail from "../helpers/mailer"
 import UserModel from "../models/user"
 import jwt from "jsonwebtoken"
+import { CONFIG } from "../utils/config"
 
 export const login = async (req : Request, res: Response) => {
     const { email } = req.params;
@@ -17,25 +18,31 @@ export const login = async (req : Request, res: Response) => {
     if (!process.env.JWT_SECRET_KEY){
         throw new Error("jwt secret key missing")
     }
+
+    const tokenPayload = {
+        sub: user.id, 
+        email: userObject.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        imageURL: user.imageURL, 
+        roles: user.roles
+    }
     const token = jwt.sign(
-        {
-            sub: user.id, 
-            email: userObject.email, 
-            roles: userObject.roles
-        }, 
-        process.env.JWT_SECRET_KEY
+        tokenPayload
+        , 
+        process.env.JWT_SECRET_KEY as string
     )
 
- 
-    res.setHeader('jwt', token, );
-    res.cookie('jwt', token, {
+    res.cookie("jwt", token, {
         maxAge: 1000*60*60*24*30,
-        httpOnly: true, 
+        httpOnly: CONFIG.isProd,
+        sameSite: "none",
         secure: true
     })
 
-
-res.status(200).json({ok:true,data :token ,message: "Logged in"})
+    res
+    .status(200)
+    .json({ok:true,data:tokenPayload ,message: "Logged in"})
 }
 
 

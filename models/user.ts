@@ -16,6 +16,10 @@ const userSchema = new Schema({
     loginCode: {
         type: String
         },
+    imageURL: {
+        type: String
+    
+    },
     roles: {
         type: {
             admin: Boolean,

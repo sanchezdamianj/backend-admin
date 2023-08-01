@@ -5,6 +5,7 @@ export interface User {
     sub:string,
     firstName: string,
     lastName: string,
+    imageURL: string
     roles: {
         admin: boolean,
         seller: boolean
